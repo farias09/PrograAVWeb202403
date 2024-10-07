@@ -12,12 +12,15 @@ namespace DAL.Implementations
     {
         public ICategoryDAL CategoryDAL { get; set; }
 
+        public IShipperDAL ShipperDAL { get; set; }
+
         private NorthwindContext _northwindContext;
 
-        public UnidadDeTrabajo(NorthwindContext northwindContext, ICategoryDAL categoryDAL)
+        public UnidadDeTrabajo(NorthwindContext northwindContext, ICategoryDAL categoryDAL, IShipperDAL shipperDAL)
         {
             this._northwindContext = northwindContext;
             this.CategoryDAL = categoryDAL;
+            this.ShipperDAL = shipperDAL;
         }
         public bool complete()
         {

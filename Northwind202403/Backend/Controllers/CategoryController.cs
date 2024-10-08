@@ -1,6 +1,5 @@
 ﻿using Backend.DTO;
 using Backend.Services.Interfaces;
-using Entities.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers
@@ -12,11 +11,14 @@ namespace Backend.Controllers
 
         ICategoryService categoryService;
 
+        #region Constructor
         public CategoryController(ICategoryService categoryService)
         {
             this.categoryService = categoryService;
         }
+        #endregion
 
+        #region CRUD
         // GET: api/<CategoryController>
         [HttpGet]
         public IEnumerable<CategoryDTO> Get()
@@ -33,20 +35,30 @@ namespace Backend.Controllers
 
         // POST api/<CategoryController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] CategoryDTO category)
         {
+            categoryService.Agregar(category);  
+            return Ok(category);
         }
 
         // PUT api/<CategoryController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        public IActionResult Put([FromBody] CategoryDTO category)
         {
+            categoryService.Editar(category);
+            return Ok(category);
         }
 
         // DELETE api/<CategoryController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            CategoryDTO category = new CategoryDTO
+            {
+                CategoryId = id
+            };
+            categoryService.Eliminar(category);
         }
+        #endregion
     }
 }

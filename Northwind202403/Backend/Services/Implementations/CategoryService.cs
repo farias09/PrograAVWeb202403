@@ -1,4 +1,5 @@
-﻿using Backend.Services.Interfaces;
+﻿using Backend.DTO;
+using Backend.Services.Interfaces;
 using DAL.Interfaces;
 using Entities.Entities;
 
@@ -12,11 +13,34 @@ namespace Backend.Services.Implementations
         {
             this.Unidad = unidadDeTrabajo;
         }
-        public bool Agregar(Category category)
+
+        #region Convertir
+        Category Convertir(CategoryDTO category)
+        {
+            return new Category
+            {
+                CategoryId = category.CategoryId,
+                CategoryName = category.CategoryName
+            };
+        }
+
+        CategoryDTO Convertir(Category category)
+        {
+            return new CategoryDTO
+            {
+                CategoryId = category.CategoryId,
+                CategoryName = category.CategoryName
+            };
+        }
+        #endregion
+
+        #region CRUD
+        public bool Agregar(CategoryDTO category)
         {
             try
             {
-                Unidad.CategoryDAL.Add(category);
+                Category entity = Convertir(category);
+                Unidad.CategoryDAL.Add(entity);
                 return Unidad.Complete();
 
             }
@@ -26,11 +50,12 @@ namespace Backend.Services.Implementations
             }
         }
 
-        public bool Editar(Category category)
+        public bool Editar(CategoryDTO category)
         {
             try
             {
-                Unidad.CategoryDAL.Update(category);
+                Category entity = Convertir(category);
+                Unidad.CategoryDAL.Update(entity);
                 return Unidad.Complete();
             }
             catch (Exception)
@@ -39,11 +64,12 @@ namespace Backend.Services.Implementations
             }
         }
 
-        public bool Eliminar(Category category)
+        public bool Eliminar(CategoryDTO category)
         {
             try
             {
-                Unidad.CategoryDAL.Remove(category);
+                Category entity = Convertir(category);
+                Unidad.CategoryDAL.Remove(entity);
                 return Unidad.Complete();
             }
             catch (Exception)
@@ -51,12 +77,14 @@ namespace Backend.Services.Implementations
                 return false;
             }
         }
+        #endregion
 
-        public Category Obtener(int id)
+        #region MetodosObtener
+        public CategoryDTO Obtener(int id)
         {
             try
             {
-                return Unidad.CategoryDAL.Get(id);
+                return Convertir(Unidad.CategoryDAL.Get(id));
 
             }
             catch (Exception)
@@ -65,16 +93,25 @@ namespace Backend.Services.Implementations
             }
         }
 
-        public List<Category> Obtener()
+        public List<CategoryDTO> Obtener()
         {
             try
             {
-                return Unidad.CategoryDAL.GetAll().ToList();
+                List<CategoryDTO> list = new List<CategoryDTO>();
+                var categories = Unidad.CategoryDAL.GetAll().ToList();
+
+                foreach (var item in categories)
+                {
+                    list.Add(Convertir(item));  
+                }
+
+                return list;
             }
             catch (Exception)
             {
                 throw;
             }
         }
+        #endregion
     }
 }

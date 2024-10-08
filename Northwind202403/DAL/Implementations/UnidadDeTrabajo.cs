@@ -22,7 +22,7 @@ namespace DAL.Implementations
             this.CategoryDAL = categoryDAL;
             this.ShipperDAL = shipperDAL;
         }
-        public bool complete()
+        public bool Complete()
         {
             try
             {

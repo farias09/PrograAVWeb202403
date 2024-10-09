@@ -14,13 +14,16 @@ namespace DAL.Implementations
 
         public IShipperDAL ShipperDAL { get; set; }
 
+        public ISupplierDAL SupplierDAL { get; set; }
+
         private NorthwindContext _northwindContext;
 
-        public UnidadDeTrabajo(NorthwindContext northwindContext, ICategoryDAL categoryDAL, IShipperDAL shipperDAL)
+        public UnidadDeTrabajo(NorthwindContext northwindContext, ICategoryDAL categoryDAL, IShipperDAL shipperDAL, ISupplierDAL supplierDAL)
         {
             this._northwindContext = northwindContext;
             this.CategoryDAL = categoryDAL;
             this.ShipperDAL = shipperDAL;
+            this.SupplierDAL = supplierDAL;
         }
         public bool Complete()
         {

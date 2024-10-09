@@ -9,7 +9,7 @@ namespace Backend.Services.Interfaces
         List<SupplierDTO> Get();
         SupplierDTO Add(SupplierDTO supplier);
         SupplierDTO Update(SupplierDTO supplier);
-        void Delete(int id);
+        SupplierDTO Delete(SupplierDTO supplier);
 
     }
 }

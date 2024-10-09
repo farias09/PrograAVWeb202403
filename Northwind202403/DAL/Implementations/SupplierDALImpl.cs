@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Implementations
 {
-    internal class SupplierDALImpl : DALGenericoImpl<Supplier>, ISupplierDAL
+    public class SupplierDALImpl : DALGenericoImpl<Supplier>, ISupplierDAL
     {
         private NorthwindContext context;
 

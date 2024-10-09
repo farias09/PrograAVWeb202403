@@ -49,24 +49,65 @@ namespace Backend.Services.Implementations
             }
         }
 
+        public SupplierDTO Update(SupplierDTO supplier)
+        {
+            try
+            {
+                _Unidad.SupplierDAL.Update(Convertir(supplier));
+                return supplier;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public SupplierDTO Delete(SupplierDTO supplier)
+        {
+            try
+            {
+                _Unidad.SupplierDAL.Remove(Convertir(supplier));
+                return supplier;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public SupplierDTO Get(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return Convertir(_Unidad.SupplierDAL.Get(id));
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public List<SupplierDTO> Get()
         {
-            throw new NotImplementedException();
-        }
+            try
+            {
+                List<SupplierDTO> list = new List<SupplierDTO>();
+                var suppliers = _Unidad.SupplierDAL.GetAll().ToList();
 
-        public SupplierDTO Update(SupplierDTO supplier)
-        {
-            throw new NotImplementedException();
-        }
+                foreach (var item in suppliers)
+                {
+                    list.Add(Convertir(item));
+                }
 
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
+                return list;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

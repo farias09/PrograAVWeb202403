@@ -19,6 +19,7 @@ namespace Backend.Controllers
         #endregion
 
         #region CRUD
+
         // GET: api/<CategoryController>
         [HttpGet]
         public IEnumerable<CategoryDTO> Get()
@@ -59,6 +60,7 @@ namespace Backend.Controllers
             };
             categoryService.Eliminar(category);
         }
+
         #endregion
     }
 }

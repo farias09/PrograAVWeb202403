@@ -1,4 +1,5 @@
-﻿using Backend.Services.Interfaces;
+﻿using Backend.DTO;
+using Backend.Services.Interfaces;
 using DAL.Interfaces;
 using Entities.Entities;
 
@@ -12,11 +13,33 @@ namespace Backend.Services.Implementations
         this.Unidad = unidadDeTrabajo;
         }
 
-        public bool Agregar(Shipper shipper)
+        #region Convertir
+        Shipper Convertir(ShipperDTO shipper)
+        {
+            return new Shipper
+            {
+                ShipperId = shipper.ShipperId,
+                CompanyName = shipper.CompanyName
+            };
+        }
+
+        ShipperDTO Convertir(Shipper shipper)
+        {
+            return new ShipperDTO
+            {
+                ShipperId = shipper.ShipperId,
+                CompanyName = shipper.CompanyName
+            };
+        }
+        #endregion
+
+        #region CRUD
+        public bool Agregar(ShipperDTO shipper)
         {
             try
             {
-                Unidad.ShipperDAL.Add(shipper);
+                Shipper entity = Convertir(shipper);
+                Unidad.ShipperDAL.Add(entity);
                 return Unidad.Complete();
             }
             catch (Exception)
@@ -26,11 +49,12 @@ namespace Backend.Services.Implementations
             }
         }
 
-        public bool Editar(Shipper shipper)
+        public bool Editar(ShipperDTO shipper)
         {
             try
             {
-                Unidad.ShipperDAL.Update(shipper);
+                Shipper entity = Convertir(shipper);
+                Unidad.ShipperDAL.Update(entity);
                 return Unidad.Complete();
             }
             catch (Exception)
@@ -40,11 +64,12 @@ namespace Backend.Services.Implementations
             }
         }
 
-        public bool Eliminar(Shipper shipper)
+        public bool Eliminar(ShipperDTO shipper)
         {
             try
             {
-                Unidad.ShipperDAL.Remove(shipper);
+                Shipper entity = Convertir(shipper);
+                Unidad.ShipperDAL.Remove(entity);
                 return Unidad.Complete();
             }
             catch (Exception)
@@ -54,11 +79,15 @@ namespace Backend.Services.Implementations
             }
         }
 
-        public Shipper Obtener(int id)
+        #endregion
+
+        #region MetodosObtener
+
+        public ShipperDTO Obtener(int id)
         {
             try
             {
-                return Unidad.ShipperDAL.Get(id);
+                return Convertir(Unidad.ShipperDAL.Get(id));
             }
             catch (Exception)
             {
@@ -67,11 +96,18 @@ namespace Backend.Services.Implementations
             }
         }
 
-        public List<Shipper> Obtener()
+        public List<ShipperDTO> Obtener()
         {
             try
             {
-                return Unidad.ShipperDAL.GetAll().ToList();
+                List<ShipperDTO> list = new List<ShipperDTO>();
+                var shippers = Unidad.ShipperDAL.GetAll().ToList();
+
+                foreach ( var item in shippers)
+                {
+                    list.Add(Convertir(item));
+                }
+                return list;
             }
             catch (Exception)
             {
@@ -79,5 +115,7 @@ namespace Backend.Services.Implementations
                 throw;
             }
         }
+
+        #endregion
     }
 }

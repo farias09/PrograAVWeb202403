@@ -1,4 +1,5 @@
-﻿using Backend.Services.Interfaces;
+﻿using Backend.DTO;
+using Backend.Services.Interfaces;
 using Entities.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,41 +14,55 @@ namespace Backend.Controllers
 
         IShipperService shipperService;
 
+        #region Constructor
         public ShipperController(IShipperService shipper)
         {
             this.shipperService = shipper;
         }
 
+        #endregion
+
+        #region CRUD
         // GET: api/<ShipperController>
         [HttpGet]
-        public IEnumerable<Shipper> Get()
+        public IEnumerable<ShipperDTO> Get()
         {
             return shipperService.Obtener();
         }
 
         // GET api/<ShipperController>/5
         [HttpGet("{id}")]
-        public Shipper Get(int id)
+        public ShipperDTO Get(int id)
         {
             return shipperService.Obtener(id);
         }
 
-            // POST api/<ShipperController>
-            [HttpPost]
-        public void Post([FromBody] string value)
+        // POST api/<ShipperController>
+        [HttpPost]
+        public IActionResult Post([FromBody] ShipperDTO shipper)
         {
+            shipperService.Agregar(shipper);
+            return Ok(shipper);
         }
 
         // PUT api/<ShipperController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put([FromBody] ShipperDTO shipper)
         {
+            shipperService.Editar(shipper);
+            return Ok(shipper);
         }
 
         // DELETE api/<ShipperController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            ShipperDTO shipper = new ShipperDTO
+            {
+                ShipperId = id
+            };
+            shipperService.Eliminar(shipper);
         }
+        #endregion
     }
 }

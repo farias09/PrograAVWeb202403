@@ -44,9 +44,10 @@ namespace FrontEnd.Controllers
                 _categoryHelper.Add(category);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                ModelState.AddModelError("", "Ocurrió un error al crear la categoría: " + ex.Message);
+                return View(category);
             }
         }
 

@@ -11,6 +11,7 @@ namespace DAL.Interfaces
         ICategoryDAL CategoryDAL { get; }
         IShipperDAL ShipperDAL { get; }
         ISupplierDAL SupplierDAL { get; }
+        IProductDAL ProductDAL { get; }
         bool Complete();
     }
 }

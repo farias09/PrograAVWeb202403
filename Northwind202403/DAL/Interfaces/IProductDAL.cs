@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Entities.Entities;
 
 namespace DAL.Interfaces
 {
-    internal interface IProductDAL
+    public interface IProductDAL : IDALGenerico<Product>
     {
     }
 }
